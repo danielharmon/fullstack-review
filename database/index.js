@@ -26,7 +26,7 @@ let save = (repos) => {
     })
     Repo.findOneAndUpdate({_id: repo.id}, dbRepo, {upsert: true}, function(err, results) {
       if (err) { console.log(err) }
-
+      console.log(results)
     })
   })
   console.log('save complete')
