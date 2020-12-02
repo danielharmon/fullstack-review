@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const config = require('../config.js')
-const DBKEY = process.env.DBKEY || config.DBKEY
+const DBKEY = process.env.DBKEY
+console.log('DBKEY' ,DBKEY)
 mongoose.connect(DBKEY);
 
 let repoSchema = mongoose.Schema({
