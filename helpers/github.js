@@ -7,12 +7,13 @@ let getReposByUsername = (username) => {
 
   // The options object has been provided to help you out,
   // but you'll have to fill in the URL
+  var TOKEN = config.TOKEN || process.env.TOKEN
   let options = {
     url: 'https://api.github.com/users/' + username + '/repos',
     headers: {
       'User-Agent': 'request',
       'Accept': 'application/vnd.github.v3+json',
-      'Authorization': `token ${config.TOKEN}`
+      'Authorization': `token ${TOKEN}`
     }
   };
   return axios.request(options)
