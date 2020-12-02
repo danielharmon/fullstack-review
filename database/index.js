@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const DBKEY = process.env.DBKEY
-console.log('DBKEY' ,DBKEY)
 mongoose.connect(DBKEY);
 
 let repoSchema = mongoose.Schema({
@@ -15,7 +14,7 @@ let repoSchema = mongoose.Schema({
 let Repo = mongoose.model('Repo', repoSchema);
 
 let save = (repos) => {
-  console.log('Repos from github: ',repos)
+  // console.log('Repos from github: ',repos)
   repos.forEach(repo => {
     var dbRepo = new Repo({
       _id: repo.id,
