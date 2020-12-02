@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/fetcher');
+const DBKEY = process.env.DBKEY
+mongoose.connect('DBKEY');
 
 let repoSchema = mongoose.Schema({
   _id: Number,
