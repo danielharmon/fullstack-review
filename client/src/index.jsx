@@ -17,7 +17,7 @@ class App extends React.Component {
     $.ajax('/repos', {
       method: 'GET',
       success: (results) => {
-        console.log('server responded', results)
+        console.log('GET Results : ', results)
         this.setState({repos: results})
       }
     })
@@ -29,7 +29,10 @@ class App extends React.Component {
     $.ajax('/repos', {
       method: 'POST',
       data: term,
-      success: () => this.componentDidMount()
+      success: () => {
+        console.log('POST SUCCESS');
+        this.componentDidMount();
+      }
     })
   }
 

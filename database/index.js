@@ -22,18 +22,23 @@ let save = (repos) => {
       forks_count: repo.forks_count
     })
     Repo.findOneAndUpdate({_id: repo.id}, dbRepo, {upsert: true}, function(err, results) {
-      if (err) {console.log(err)}
-      else { console.log('successfully written', results) }
+      if (err) { console.log(err) }
     })
   })
+  console.log('save complete')
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
 }
 let getTop = () => {
-  Repo.find({}).sort({forks_count: 1}).limit(25).exec(function(err, results) {
+  return Repo
+  .find({})
+  .sort({forks_count: -1})
+  .limit(25)
+  .exec(function(err, results) {
       if(err) { console.log(err) }
-      else { return results }
+      else {
+        return results }
     })
 
 }
