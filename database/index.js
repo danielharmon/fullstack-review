@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const DBKEY = process.env.DBKEY
-mongoose.connect('DBKEY');
+const config = require('../config.js')
+const DBKEY = process.env.DBKEY || config.DBKEY
+mongoose.connect(DBKEY);
 
 let repoSchema = mongoose.Schema({
   _id: Number,
@@ -14,7 +15,8 @@ let repoSchema = mongoose.Schema({
 let Repo = mongoose.model('Repo', repoSchema);
 
 let save = (repos) => {
-  repos.forEach(repo =>{
+  console.log('Repos from github: ',repos)
+  repos.forEach(repo => {
     var dbRepo = new Repo({
       _id: repo.id,
       name: repo.name,
@@ -24,9 +26,11 @@ let save = (repos) => {
     })
     Repo.findOneAndUpdate({_id: repo.id}, dbRepo, {upsert: true}, function(err, results) {
       if (err) { console.log(err) }
+
     })
   })
   console.log('save complete')
+
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB

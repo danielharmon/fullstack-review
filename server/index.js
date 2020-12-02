@@ -14,8 +14,9 @@ app.post('/repos', bodyParser.urlencoded(), function (req, res) {
   // save the repo information in the database
   console.log('served post request', req.body)
   github.getReposByUsername(Object.keys(req.body)[0])
-    .then(response => {
-      dbHelpers.save(response.data);
+    .then(response => dbHelpers.save(response.data))
+    .then(()=> {
+
       res.status(200).end();
     })
 });
@@ -23,9 +24,11 @@ app.post('/repos', bodyParser.urlencoded(), function (req, res) {
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
-  console.log('served get request')
+  console.log('get request received')
   dbHelpers.getTop()
-    .then(results => res.send(results))
+    .then(results => {
+      console.log('served get request with: ',results)
+      res.send(results)})
     .catch(err => console.log(err))
 });
 
