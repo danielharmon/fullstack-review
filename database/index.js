@@ -25,7 +25,7 @@ let save = (repos) => {
     })
     Repo.findOneAndUpdate({_id: repo.id}, dbRepo, {upsert: true}, function(err, results) {
       if (err) { console.log(err) }
-      console.log(results)
+      console.log('Mongo update results: ', results)
     })
   })
   console.log('save complete')
@@ -42,6 +42,7 @@ let getTop = () => {
   .exec(function(err, results) {
       if(err) { console.log(err) }
       else {
+        console.log('Mongo find results: ', results)
         return results }
     })
 
