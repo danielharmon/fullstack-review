@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const DBKEY = process.env.DBKEY
-mongoose.connect(DBKEY);
+mongoose.connect(DBKEY).then(()=>console.log('connected')).catch(err=>console.log(err));
 
 let repoSchema = mongoose.Schema({
   _id: Number,
@@ -12,9 +12,16 @@ let repoSchema = mongoose.Schema({
 });
 
 let Repo = mongoose.model('Repo', repoSchema);
-
+let updateDatabase = (repo, dbRepo) => {
+  return new Promise((resolve, reject) => {
+    Repo.findOneAndUpdate({_id: repo.id}, dbRepo, {upsert: true, new: true}, function(err, doc) {
+      if (err) { throw new Error(err) }
+      resolve(doc)
+    })
+  })
+}
 let save = (repos) => {
-  // console.log('Repos from github: ',repos)
+  let promises = [];
   repos.forEach(repo => {
     var dbRepo = new Repo({
       _id: repo.id,
@@ -23,12 +30,9 @@ let save = (repos) => {
       owner: repo.owner.login,
       forks_count: repo.forks_count
     })
-    Repo.findOneAndUpdate({_id: repo.id}, dbRepo, {upsert: true}, function(err, results) {
-      if (err) { console.log(err) }
-      console.log('Mongo update results: ', results)
-    })
+   promises.push(updateDatabase(repo, dbRepo))
   })
-  console.log('save complete')
+  return Promise.all(promises)
 
   // TODO: Your code here
   // This function should save a repo or repos to
@@ -42,7 +46,7 @@ let getTop = () => {
   .exec(function(err, results) {
       if(err) { console.log(err) }
       else {
-        console.log('Mongo find results: ', results)
+        //console.log('Mongo find results: ', results)
         return results }
     })
 
