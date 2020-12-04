@@ -16,6 +16,8 @@ app.post('/repos', bodyParser.urlencoded(), function (req, res) {
   .then(response => dbHelpers.save(response.data))
   .then((info) => {
     console.log('save info: ', info)
+    var newCount = 0
+
     return dbHelpers.getTop()})
   .then(result => {
     res.send(result)}
@@ -34,7 +36,7 @@ app.get('/repos', function (req, res) {
     .catch(err => console.log(err))
 });
 
-let port = 1128;
+let port = process.env.PORT || 1128;
 
 app.listen(port, function() {
   console.log(`listening on port ${port}`);
