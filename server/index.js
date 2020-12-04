@@ -15,7 +15,6 @@ app.post('/repos', bodyParser.urlencoded(), function (req, res) {
   github.getReposByUsername(Object.keys(req.body)[0])
   .then(response => dbHelpers.save(response.data))
   .then((info) => {
-    console.log('save info: ', info)
     var newCount = 0
 
     return dbHelpers.getTop()})
