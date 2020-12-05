@@ -20,6 +20,14 @@ let updateDatabase = (repo, dbRepo) => {
     })
   })
 }
+let getUsers = () => {
+  return Repo
+  .find({})
+  .exec(function(err, results) {
+    if(err) {console.log(err)}
+    return results;
+  })
+}
 let save = (repos) => {
   let promises = [];
   repos.forEach(repo => {

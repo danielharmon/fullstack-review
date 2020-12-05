@@ -12,7 +12,7 @@ app.post('/repos', bodyParser.urlencoded(), function (req, res) {
   // This route should take the github username provided
   // and get the repo information from the github API, then
   // save the repo information in the database
-  github.getReposByUsername(Object.keys(req.body)[0])
+  github.getReposByUsername(req.body.username)
   .then(response => dbHelpers.save(response.data))
   .then((info) => {
     var newCount = 0
@@ -24,6 +24,15 @@ app.post('/repos', bodyParser.urlencoded(), function (req, res) {
   .catch(err => console.log(err))
 
 });
+
+app.get('/users', function (req, res) {
+  console.log('users request received')
+  dbHelpers.getUsers()
+    .then(documents => {
+      var userList = {}
+      documents.forEach(doc => userList[doc.owner] = doc.owner)
+      res.send(userList)
+})
 
 app.get('/repos', function (req, res) {
   // TODO - your code here!
